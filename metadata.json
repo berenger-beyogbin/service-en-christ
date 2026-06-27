@@ -1,0 +1,6 @@
+{
+  "name": "Service en Christ",
+  "description": "Annuaire de mise en relation de prestataires de services chrétiens en Côte d'Ivoire",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
