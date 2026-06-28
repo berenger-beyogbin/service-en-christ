@@ -10,6 +10,17 @@ import {
   ShieldCheck, PhoneCall, HeartHandshake, Flag, Users, Award,
 } from 'lucide-react';
 
+const formatName = (name?: string): string => {
+  if (!name) return '';
+  return name.trim().toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+};
+
+const formatTitle = (title?: string): string => {
+  if (!title) return '';
+  const lower = title.trim().toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+};
+
 export const getCategoryIcon = (iconName: string, className = "h-6 w-6") => {
   switch (iconName) {
     case 'Wrench': return <Wrench className={className} />;
@@ -41,6 +52,9 @@ export const Home: React.FC = () => {
   const [recentProviders, setRecentProviders] = useState<any[]>([]);
   const [loadingCats, setLoadingCats] = useState(true);
   const [loadingProviders, setLoadingProviders] = useState(true);
+  const [searchPlaceholder, setSearchPlaceholder] = useState(
+    window.innerWidth < 640 ? 'Quel service cherchez-vous ?' : 'Ex : plombier, couturier, webmaster, répétiteur...'
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +88,14 @@ export const Home: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const update = () => setSearchPlaceholder(
+      window.innerWidth < 640 ? 'Quel service cherchez-vous ?' : 'Ex : plombier, couturier, webmaster, répétiteur...'
+    );
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -87,7 +109,7 @@ export const Home: React.FC = () => {
     <div className="flex-1 pb-10">
 
       {/* ── 1. HERO COMPACT ──────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#071E3D] via-[#1B4F72] to-[#154360] text-white pt-8 pb-5 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#071E3D] via-[#1B4F72] to-[#154360] text-white pt-6 pb-4 sm:pt-8 sm:pb-5 px-4 sm:px-6 lg:px-8">
         <div className="absolute -top-10 left-1/3 h-72 w-72 rounded-full bg-sky-400/10 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 h-48 w-48 rounded-full bg-amber-400/10 blur-3xl pointer-events-none" />
 
@@ -99,13 +121,13 @@ export const Home: React.FC = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="font-sans text-2xl font-extrabold tracking-tight sm:text-3xl leading-snug"
+              className="font-sans text-[28px] font-extrabold tracking-tight sm:text-[34px] lg:text-[42px] leading-tight"
             >
               Trouvez un prestataire {' '}
               <span className="text-amber-400">fiable</span>, près de chez vous.
             </motion.h1>
 
-            <p className="text-xs text-sky-200/90 leading-relaxed">
+            <p className="text-sm text-sky-100/85 leading-relaxed">
               Professionnels qualifiés et vérifiés — contactez-les directement, sans commission ni intermédiaire.
             </p>
 
@@ -120,7 +142,7 @@ export const Home: React.FC = () => {
                   <Search className="absolute top-1/2 -translate-y-1/2 left-3.5 h-4 w-4 text-gray-400 pointer-events-none" />
                   <input
                     type="text"
-                    placeholder="Ex : plombier, couturier, webmaster, répétiteur..."
+                    placeholder={searchPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full h-9 pl-10 pr-3 rounded-lg text-gray-800 placeholder-gray-400 bg-transparent focus:outline-hidden text-sm"
@@ -145,8 +167,8 @@ export const Home: React.FC = () => {
                 <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <span className="text-white/20">·</span>
-              <span className="text-[11px] text-sky-300/80 flex items-center gap-1">
-                <UserCheck className="h-3 w-3 text-sky-400" />
+              <span className="text-[12px] text-sky-100/90 flex items-center gap-1">
+                <UserCheck className="h-3 w-3 text-sky-300" />
                 Mise en relation directe
               </span>
             </div>
@@ -276,8 +298,8 @@ export const Home: React.FC = () => {
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1 flex-wrap">
-                        <p className="font-bold text-text text-xs truncate">
-                          {prov.profiles?.prenom} {prov.profiles?.nom}
+                        <p className="font-bold text-text text-[13px] truncate">
+                          {formatName(prov.profiles?.prenom)} {formatName(prov.profiles?.nom)}
                         </p>
                         {prov.statut_validation === 'valide' && (
                           <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 px-1.5 py-0.5 text-[9px] font-bold text-emerald-700 border border-emerald-100 shrink-0">
@@ -286,7 +308,7 @@ export const Home: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] font-semibold text-primary truncate">{prov.titre}</p>
+                      <p className="text-[12px] font-semibold text-primary truncate">{formatTitle(prov.titre)}</p>
                       <div className="flex items-center gap-1 text-[10px] text-muted">
                         <MapPin className="h-2.5 w-2.5 shrink-0" />
                         <span className="truncate">{prov.ville}{prov.quartier ? `, ${prov.quartier}` : ''}</span>
@@ -309,7 +331,7 @@ export const Home: React.FC = () => {
 
       {/* ── 4. CTA FINAL COMPACT ──────────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-        <div className="rounded-2xl bg-gradient-to-br from-[#071E3D] via-[#1B4F72] to-[#154360] px-8 py-7 sm:px-10 text-white relative overflow-hidden shadow-lg border border-white/5">
+        <div className="rounded-2xl bg-gradient-to-br from-[#071E3D] via-[#1B4F72] to-[#154360] px-5 py-5 sm:px-8 sm:py-7 text-white relative overflow-hidden shadow-lg border border-white/5">
           <div className="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-white/5 pointer-events-none" />
           <div className="absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-amber-400/10 pointer-events-none" />
           <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

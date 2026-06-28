@@ -7,7 +7,7 @@ export const BottomNav: React.FC = () => {
   const { user, profile } = useAuth();
 
   return (
-    <nav className="fixed bottom-0 left-0 z-40 h-16 w-full border-t border-border bg-white md:hidden flex items-center justify-around px-2 shadow-lg">
+    <nav className="fixed bottom-0 left-0 z-40 h-[72px] w-full border-t border-border bg-white md:hidden flex items-center justify-around px-2 shadow-lg">
       
       {/* Home Link */}
       <NavLink 
@@ -18,7 +18,7 @@ export const BottomNav: React.FC = () => {
           }`
         }
       >
-        <Home className="h-5 w-5" />
+        <Home className="h-6 w-6" />
         <span>Accueil</span>
       </NavLink>
 
@@ -31,7 +31,7 @@ export const BottomNav: React.FC = () => {
           }`
         }
       >
-        <Search className="h-5 w-5" />
+        <Search className="h-6 w-6" />
         <span>Rechercher</span>
       </NavLink>
 
@@ -46,7 +46,7 @@ export const BottomNav: React.FC = () => {
               }`
             }
           >
-            <Briefcase className="h-5 w-5" />
+            <Briefcase className="h-6 w-6" />
             <span>Mon Espace</span>
           </NavLink>
         ) : (
@@ -58,7 +58,7 @@ export const BottomNav: React.FC = () => {
               }`
             }
           >
-            <Briefcase className="h-5 w-5" />
+            <Briefcase className="h-6 w-6" />
             <span>S'inscrire Pro</span>
           </NavLink>
         )
@@ -71,7 +71,7 @@ export const BottomNav: React.FC = () => {
             }`
           }
         >
-          <Briefcase className="h-5 w-5" />
+          <Briefcase className="h-6 w-6" />
           <span>Espace Pro</span>
         </NavLink>
       )}
@@ -86,7 +86,7 @@ export const BottomNav: React.FC = () => {
             }`
           }
         >
-          <Shield className="h-5 w-5" />
+          <Shield className="h-6 w-6" />
           <span>Admin</span>
         </NavLink>
       )}
@@ -100,7 +100,7 @@ export const BottomNav: React.FC = () => {
           }`
         }
       >
-        <User className="h-5 w-5" />
+        <User className="h-6 w-6" />
         <span>Mon Profil</span>
       </NavLink>
 

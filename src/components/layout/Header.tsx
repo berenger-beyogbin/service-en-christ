@@ -16,15 +16,15 @@ export const Header: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-white shadow-xs">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-14 md:h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
         {/* Logo / Branding */}
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-sm transition-transform group-hover:scale-105">
-            <Church className="h-5 w-5" />
+          <div className="flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-xl bg-primary text-white shadow-sm transition-transform group-hover:scale-105">
+            <Church className="h-4 w-4 md:h-5 md:w-5" />
           </div>
-          <div className="h-6 w-px bg-gray-300" />
-          <span className="font-sans font-bold text-base tracking-tight text-primary">Service en Christ</span>
+          <div className="h-5 w-px bg-gray-300" />
+          <span className="font-sans font-bold text-[15px] md:text-base tracking-tight text-primary">Service en Christ</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -126,7 +126,7 @@ export const Header: React.FC = () => {
 
       {/* Mobile Drawer Menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-border bg-white px-4 py-4 shadow-md space-y-1 absolute top-16 left-0 w-full animate-fade-in">
+        <div className="md:hidden border-t border-border bg-white px-4 py-3 shadow-md space-y-1 absolute top-14 md:top-16 left-0 w-full animate-fade-in">
           <Link
             to="/recherche"
             onClick={() => setMenuOpen(false)}

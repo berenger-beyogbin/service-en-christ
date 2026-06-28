@@ -6,14 +6,14 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white border-t border-border pb-16 md:pb-0">
+    <footer className="bg-white border-t border-border pb-[72px] md:pb-0">
 
       {/* ── Zone principale ── */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-4 lg:grid-cols-4">
 
           {/* Colonne 1 — Marque */}
-          <div className="space-y-2.5">
+          <div className="col-span-2 sm:col-span-1 space-y-2.5">
             <div className="flex items-center gap-2">
               <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-white">
                 <Church className="h-3.5 w-3.5" />
@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Colonne 2 — Navigation */}
-          <div>
+          <div className="col-span-1">
             <h3 className="text-[10px] font-semibold text-text uppercase tracking-wider mb-2">Navigation</h3>
             <ul className="space-y-1">
               {[
@@ -56,7 +56,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Colonne 3 — Informations */}
-          <div>
+          <div className="col-span-1">
             <h3 className="text-[10px] font-semibold text-text uppercase tracking-wider mb-2">Informations</h3>
             <ul className="space-y-1">
               {[
@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Colonne 4 — Contact */}
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <h3 className="text-[10px] font-semibold text-text uppercase tracking-wider mb-2">Contact</h3>
             <div className="space-y-1">
               <div className="flex items-center gap-1.5 text-[12px] text-muted">
@@ -102,7 +102,7 @@ export const Footer: React.FC = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
             <p className="text-[11px] text-muted">
-              © {currentYear} Service en Christ — BEYOGBIN Ministries. Tous droits réservés.
+              © {currentYear} Service en Christ - Tous droits réservés.
             </p>
             <div className="flex items-center gap-2.5 flex-wrap">
               <Link to="/cgu" className="text-[11px] text-muted hover:text-primary transition-colors">CGU</Link>

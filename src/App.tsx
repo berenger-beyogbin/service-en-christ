@@ -40,7 +40,7 @@ export default function App() {
       <AuthProvider>
         <div className="min-h-screen flex flex-col bg-neutral">
           <Header />
-          <main className="flex-1 flex flex-col pb-16 md:pb-0">
+          <main className="flex-1 flex flex-col pb-[72px] md:pb-0">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/auth/inscription" element={<Inscription />} />
