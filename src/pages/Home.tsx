@@ -106,7 +106,7 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 pb-10">
+    <div className="pb-6">
 
       {/* ── 1. HERO COMPACT ──────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#071E3D] via-[#1B4F72] to-[#154360] text-white pt-6 pb-4 sm:pt-8 sm:pb-5 px-4 sm:px-6 lg:px-8">
@@ -188,7 +188,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── 3. BLOC CENTRAL : CATÉGORIES + PRESTATAIRES ──────────────── */}
-      <section className="mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-5 sm:py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-end">
 
           {/* Left 60%: titre + catégories */}
@@ -330,7 +330,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── 4. CTA FINAL COMPACT ──────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 pb-4 sm:pb-8 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-gradient-to-br from-[#071E3D] via-[#1B4F72] to-[#154360] px-5 py-5 sm:px-8 sm:py-7 text-white relative overflow-hidden shadow-lg border border-white/5">
           <div className="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-white/5 pointer-events-none" />
           <div className="absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-amber-400/10 pointer-events-none" />
