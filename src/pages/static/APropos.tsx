@@ -75,7 +75,7 @@ export const APropos: React.FC = () => {
         <div className="card bg-white p-6 sm:p-8 border border-border rounded-2xl space-y-4">
           <h2 className="text-lg font-bold text-primary">L'Équipe & Partenariats</h2>
           <p className="text-sm text-muted leading-relaxed">
-            L'annuaire de confiance Service en Christ est une initiative soutenue par <strong>BEYOGBIN Ministries</strong> et diverses œuvres chrétiennes en Côte d'Ivoire. Nous travaillons activement pour équiper la communauté chrétienne dans son impact professionnel quotidien.
+            L'annuaire de confiance Service en Christ est une initiative soutenue par <strong>le CFC</strong> et diverses œuvres chrétiennes en Côte d'Ivoire. Nous travaillons activement pour équiper la communauté chrétienne dans son impact professionnel quotidien.
           </p>
         </div>
 
