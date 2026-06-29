@@ -28,6 +28,8 @@ import { ValidationProfil } from './pages/admin/ValidationProfil';
 import { Signalements } from './pages/admin/Signalements';
 import { Categories } from './pages/admin/Categories';
 import { Statistiques } from './pages/admin/Statistiques';
+import { Comptes } from './pages/admin/Comptes';
+import { CompteDetail } from './pages/admin/CompteDetail';
 
 // Nouvelles pages statiques (À CRÉER)
 import { APropos } from './pages/static/APropos';
@@ -64,6 +66,8 @@ export default function App() {
                 <Route path="/admin/signalements" element={<Signalements />} />
                 <Route path="/admin/categories" element={<Categories />} />
                 <Route path="/admin/statistiques" element={<Statistiques />} />
+                <Route path="/admin/comptes" element={<Comptes />} />
+                <Route path="/admin/comptes/:id" element={<CompteDetail />} />
               </Route>
               <Route path="/a-propos" element={<APropos />} />
               <Route path="/cgu" element={<CGU />} />
