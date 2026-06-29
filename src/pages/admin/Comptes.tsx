@@ -152,11 +152,11 @@ export const Comptes: React.FC = () => {
         />
       </div>
 
-      {/* Table */}
+      {/* Liste */}
       {loading ? (
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-18 bg-white rounded-xl border animate-pulse" />
+            <div key={i} className="h-24 bg-white rounded-xl border animate-pulse" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
@@ -166,115 +166,205 @@ export const Comptes: React.FC = () => {
           <p className="text-sm text-muted">Modifiez vos critères de recherche ou de filtre</p>
         </div>
       ) : (
-        <div className="bg-white border border-border rounded-2xl overflow-hidden shadow-xs">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm border-collapse">
-              <thead>
-                <tr className="bg-gray-50 text-muted font-bold uppercase tracking-wide border-b border-gray-100 text-xs">
-                  <th className="px-4 py-3.5">Utilisateur</th>
-                  <th className="px-4 py-3.5">Email</th>
-                  <th className="px-4 py-3.5">Ville</th>
-                  <th className="px-4 py-3.5">Rôle</th>
-                  <th className="px-4 py-3.5">Statut</th>
-                  <th className="px-4 py-3.5">Inscription</th>
-                  <th className="px-4 py-3.5 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {filtered.map(c => (
-                  <tr key={c.id} className="hover:bg-gray-50/40 transition-colors">
-                    <td className="px-4 py-3.5">
-                      <div className="flex gap-3 items-center">
-                        <img
-                          src={c.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(c.prenom + ' ' + c.nom)}`}
-                          alt="Avatar"
-                          className="h-9 w-9 rounded-full object-cover border shrink-0"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div>
-                          <span className="font-bold text-text block text-sm">{c.prenom} {c.nom}</span>
-                          <span className="text-xs text-muted">{c.telephone || '—'}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3.5 text-muted text-sm max-w-[180px] truncate">{c.email_ref || '—'}</td>
-                    <td className="px-4 py-3.5 font-medium text-text text-sm">{c.ville || '—'}</td>
-                    <td className="px-4 py-3.5">
-                      <div className="flex gap-1 flex-wrap">
-                        {c.is_admin && (
-                          <span className="inline-flex rounded-full bg-violet-50 border border-violet-100 px-2.5 py-0.5 text-xs font-bold text-violet-700">Admin</span>
-                        )}
-                        {c.is_provider && (
-                          <span className="inline-flex rounded-full bg-sky-50 border border-sky-100 px-2.5 py-0.5 text-xs font-bold text-sky-700">Prestataire</span>
-                        )}
-                        {!c.is_admin && !c.is_provider && (
-                          <span className="text-xs text-muted">Utilisateur</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3.5">
-                      <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold border ${
+        <>
+          {/* Vue cartes — mobile uniquement */}
+          <div className="md:hidden space-y-3">
+            {filtered.map(c => (
+              <div key={c.id} className="bg-white border border-border rounded-2xl p-4 space-y-3 shadow-xs">
+                {/* Ligne identité */}
+                <div className="flex items-center gap-3">
+                  <img
+                    src={c.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(c.prenom + ' ' + c.nom)}`}
+                    alt="Avatar"
+                    className="h-11 w-11 rounded-full object-cover border shrink-0"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-text text-sm truncate">{c.prenom} {c.nom}</p>
+                    <p className="text-xs text-muted truncate">{c.email_ref || '—'}</p>
+                  </div>
+                  <span className={`shrink-0 inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold border ${
+                    c.statut_compte === 'actif'
+                      ? 'bg-emerald-50 border-emerald-100 text-emerald-700'
+                      : c.statut_compte === 'suspendu'
+                      ? 'bg-amber-50 border-amber-100 text-amber-700'
+                      : 'bg-rose-50 border-rose-100 text-rose-700'
+                  }`}>
+                    {c.statut_compte === 'actif' ? 'Actif' : c.statut_compte === 'suspendu' ? 'Suspendu' : 'Supprimé'}
+                  </span>
+                </div>
+
+                {/* Infos secondaires */}
+                <div className="flex items-center gap-3 flex-wrap">
+                  {c.ville && <span className="text-xs text-muted">{c.ville}</span>}
+                  <span className="text-xs text-muted">
+                    {new Date(c.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </span>
+                  {c.is_admin && (
+                    <span className="inline-flex rounded-full bg-violet-50 border border-violet-100 px-2 py-0.5 text-xs font-bold text-violet-700">Admin</span>
+                  )}
+                  {c.is_provider && (
+                    <span className="inline-flex rounded-full bg-sky-50 border border-sky-100 px-2 py-0.5 text-xs font-bold text-sky-700">Prestataire</span>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-2 pt-1 border-t border-gray-100">
+                  <Link
+                    to={`/admin/comptes/${c.id}`}
+                    className="flex-1 inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-border bg-white text-xs font-bold text-text hover:bg-gray-50 cursor-pointer"
+                  >
+                    <Eye className="h-3.5 w-3.5" />
+                    Voir
+                  </Link>
+                  {c.statut_compte !== 'supprime' && (
+                    <button
+                      onClick={() => handleSuspendToggle(c)}
+                      className={`flex-1 inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border text-xs font-bold cursor-pointer transition-colors ${
                         c.statut_compte === 'actif'
-                          ? 'bg-emerald-50 border-emerald-100 text-emerald-700'
-                          : c.statut_compte === 'suspendu'
-                          ? 'bg-amber-50 border-amber-100 text-amber-700'
-                          : 'bg-rose-50 border-rose-100 text-rose-700'
-                      }`}>
-                        {c.statut_compte === 'actif' ? 'Actif' : c.statut_compte === 'suspendu' ? 'Suspendu' : 'Supprimé'}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3.5 text-muted text-sm whitespace-nowrap">
-                      {new Date(c.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </td>
-                    <td className="px-4 py-3.5">
-                      <div className="flex gap-1.5 justify-end flex-wrap">
-                        <Link
-                          to={`/admin/comptes/${c.id}`}
-                          className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border bg-white px-3 text-xs font-bold text-text hover:bg-gray-50 cursor-pointer shadow-xs whitespace-nowrap"
-                        >
-                          <Eye className="h-3.5 w-3.5" />
-                          Voir
-                        </Link>
-                        {c.statut_compte !== 'supprime' && (
+                          ? 'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100'
+                          : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                      }`}
+                    >
+                      {c.statut_compte === 'actif'
+                        ? <><UserX className="h-3.5 w-3.5" /> Suspendre</>
+                        : <><UserCheck className="h-3.5 w-3.5" /> Activer</>
+                      }
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleToggleAdmin(c)}
+                    disabled={c.id === adminProfile?.id}
+                    className={`flex-1 inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border text-xs font-bold cursor-pointer transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
+                      c.is_admin
+                        ? 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100'
+                        : 'border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100'
+                    }`}
+                  >
+                    {c.is_admin
+                      ? <><ShieldOff className="h-3.5 w-3.5" /> Retirer</>
+                      : <><Shield className="h-3.5 w-3.5" /> Promouvoir</>
+                    }
+                  </button>
+                </div>
+              </div>
+            ))}
+            <p className="text-xs text-muted text-center pb-2">
+              {filtered.length} compte{filtered.length > 1 ? 's' : ''} affiché{filtered.length > 1 ? 's' : ''}
+            </p>
+          </div>
+
+          {/* Vue tableau — desktop uniquement */}
+          <div className="hidden md:block bg-white border border-border rounded-2xl overflow-hidden shadow-xs">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 text-muted font-bold uppercase tracking-wide border-b border-gray-100 text-xs">
+                    <th className="px-4 py-3.5">Utilisateur</th>
+                    <th className="px-4 py-3.5">Email</th>
+                    <th className="px-4 py-3.5">Ville</th>
+                    <th className="px-4 py-3.5">Rôle</th>
+                    <th className="px-4 py-3.5">Statut</th>
+                    <th className="px-4 py-3.5">Inscription</th>
+                    <th className="px-4 py-3.5 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {filtered.map(c => (
+                    <tr key={c.id} className="hover:bg-gray-50/40 transition-colors">
+                      <td className="px-4 py-3.5">
+                        <div className="flex gap-3 items-center">
+                          <img
+                            src={c.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(c.prenom + ' ' + c.nom)}`}
+                            alt="Avatar"
+                            className="h-9 w-9 rounded-full object-cover border shrink-0"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div>
+                            <span className="font-bold text-text block text-sm">{c.prenom} {c.nom}</span>
+                            <span className="text-xs text-muted">{c.telephone || '—'}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5 text-muted text-sm max-w-[180px] truncate">{c.email_ref || '—'}</td>
+                      <td className="px-4 py-3.5 font-medium text-text text-sm">{c.ville || '—'}</td>
+                      <td className="px-4 py-3.5">
+                        <div className="flex gap-1 flex-wrap">
+                          {c.is_admin && (
+                            <span className="inline-flex rounded-full bg-violet-50 border border-violet-100 px-2.5 py-0.5 text-xs font-bold text-violet-700">Admin</span>
+                          )}
+                          {c.is_provider && (
+                            <span className="inline-flex rounded-full bg-sky-50 border border-sky-100 px-2.5 py-0.5 text-xs font-bold text-sky-700">Prestataire</span>
+                          )}
+                          {!c.is_admin && !c.is_provider && (
+                            <span className="text-xs text-muted">Utilisateur</span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5">
+                        <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold border ${
+                          c.statut_compte === 'actif'
+                            ? 'bg-emerald-50 border-emerald-100 text-emerald-700'
+                            : c.statut_compte === 'suspendu'
+                            ? 'bg-amber-50 border-amber-100 text-amber-700'
+                            : 'bg-rose-50 border-rose-100 text-rose-700'
+                        }`}>
+                          {c.statut_compte === 'actif' ? 'Actif' : c.statut_compte === 'suspendu' ? 'Suspendu' : 'Supprimé'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3.5 text-muted text-sm whitespace-nowrap">
+                        {new Date(c.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </td>
+                      <td className="px-4 py-3.5">
+                        <div className="flex gap-1.5 justify-end flex-wrap">
+                          <Link
+                            to={`/admin/comptes/${c.id}`}
+                            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border bg-white px-3 text-xs font-bold text-text hover:bg-gray-50 cursor-pointer shadow-xs whitespace-nowrap"
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                            Voir
+                          </Link>
+                          {c.statut_compte !== 'supprime' && (
+                            <button
+                              onClick={() => handleSuspendToggle(c)}
+                              className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-3 text-xs font-bold cursor-pointer shadow-xs transition-colors whitespace-nowrap ${
+                                c.statut_compte === 'actif'
+                                  ? 'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100'
+                                  : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                              }`}
+                            >
+                              {c.statut_compte === 'actif'
+                                ? <><UserX className="h-3.5 w-3.5" /> Suspendre</>
+                                : <><UserCheck className="h-3.5 w-3.5" /> Activer</>
+                              }
+                            </button>
+                          )}
                           <button
-                            onClick={() => handleSuspendToggle(c)}
-                            className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-3 text-xs font-bold cursor-pointer shadow-xs transition-colors whitespace-nowrap ${
-                              c.statut_compte === 'actif'
-                                ? 'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100'
-                                : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                            onClick={() => handleToggleAdmin(c)}
+                            disabled={c.id === adminProfile?.id}
+                            className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-3 text-xs font-bold cursor-pointer shadow-xs transition-colors whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed ${
+                              c.is_admin
+                                ? 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100'
+                                : 'border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100'
                             }`}
                           >
-                            {c.statut_compte === 'actif'
-                              ? <><UserX className="h-3.5 w-3.5" /> Suspendre</>
-                              : <><UserCheck className="h-3.5 w-3.5" /> Activer</>
+                            {c.is_admin
+                              ? <><ShieldOff className="h-3.5 w-3.5" /> Retirer Admin</>
+                              : <><Shield className="h-3.5 w-3.5" /> Promouvoir</>
                             }
                           </button>
-                        )}
-                        <button
-                          onClick={() => handleToggleAdmin(c)}
-                          disabled={c.id === adminProfile?.id}
-                          className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-3 text-xs font-bold cursor-pointer shadow-xs transition-colors whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed ${
-                            c.is_admin
-                              ? 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100'
-                              : 'border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100'
-                          }`}
-                        >
-                          {c.is_admin
-                            ? <><ShieldOff className="h-3.5 w-3.5" /> Retirer Admin</>
-                            : <><Shield className="h-3.5 w-3.5" /> Promouvoir</>
-                          }
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="px-4 py-3 border-t border-gray-100 text-xs text-muted">
+              {filtered.length} compte{filtered.length > 1 ? 's' : ''} affiché{filtered.length > 1 ? 's' : ''}
+            </div>
           </div>
-          <div className="px-4 py-3 border-t border-gray-100 text-xs text-muted">
-            {filtered.length} compte{filtered.length > 1 ? 's' : ''} affiché{filtered.length > 1 ? 's' : ''}
-          </div>
-        </div>
+        </>
       )}
     </div>
   );
